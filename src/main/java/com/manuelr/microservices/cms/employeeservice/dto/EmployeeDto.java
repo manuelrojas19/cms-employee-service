@@ -27,6 +27,7 @@ import java.time.OffsetDateTime;
 @Builder
 @Relation(collectionRelation = "employees")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ToString
 public class EmployeeDto extends RepresentationModel<EmployeeDto> implements Serializable {
 
     @JsonIgnore

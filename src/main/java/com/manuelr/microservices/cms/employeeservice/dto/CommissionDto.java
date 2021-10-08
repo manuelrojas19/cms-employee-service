@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @Relation(collectionRelation = "commissions")
-public class CommissionDto extends RepresentationModel<CommissionDto> {
+public class CommissionDto {
     @Null
     private String id;
     @Null
