@@ -59,7 +59,5 @@ public class EmployeeDto extends RepresentationModel<EmployeeDto> implements Ser
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssZ", shape=JsonFormat.Shape.STRING)
     private OffsetDateTime updatedAt;
     @Null
-    @JsonUnwrapped
     private CollectionModel<CommissionDto> commissions;
-
 }
