@@ -1,6 +1,6 @@
 package com.manuelr.microservices.cms.employeeservice.controller;
 
-import com.manuelr.microservices.cms.employeeservice.exception.EmployeeNotFoundException;
+import com.manuelr.microservices.cms.employeeservice.exception.NotFoundException;
 import com.manuelr.microservices.cms.employeeservice.exception.ExceptionResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,8 +31,8 @@ public class MvcExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(EmployeeNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> employeeNotFoundHandler(EmployeeNotFoundException e) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ExceptionResponse> employeeNotFoundHandler(NotFoundException e) {
         ExceptionResponse response = ExceptionResponse.builder().message(e.getMessage()).build();
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }

@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(uses = {DataMapper.class})
 public interface EmployeeMapper {
-    EmployeeDto employeeEntityToEmployeeDto(Employee employee);
-
-    Employee employeeDtoToEmployeeEntity(EmployeeDto employeeDto);
+//    EmployeeDto employeeEntityToEmployeeDto(Employee employee);
+//
+//    Employee employeeDtoToEmployeeEntity(EmployeeDto employeeDto);
 }

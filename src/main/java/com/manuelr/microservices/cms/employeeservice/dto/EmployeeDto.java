@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.manuelr.microservices.cms.employeeservice.entity.Gender;
-import com.manuelr.microservices.cms.employeeservice.entity.Position;
+import com.manuelr.microservices.cms.employeeservice.entity.EmployeeType;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.hateoas.CollectionModel;
@@ -52,7 +52,7 @@ public class EmployeeDto extends RepresentationModel<EmployeeDto> implements Ser
     @NotNull
     private Gender gender;
     @NotNull
-    private Position position;
+    private EmployeeType position;
     @Null
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssZ", shape=JsonFormat.Shape.STRING)
     private OffsetDateTime createdAt;

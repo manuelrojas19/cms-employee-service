@@ -22,11 +22,11 @@ public class EmployeeAssembler implements RepresentationModelAssembler<Employee,
 
     @Override
     public @NonNull EmployeeDto toModel(@NonNull Employee entity) {
-        EmployeeDto employeeDto = employeeMapper.employeeEntityToEmployeeDto(entity);
-        employeeDto.add(WebMvcLinkBuilder.linkTo(methodOn(EmployeeController.class).findEmployeeById(entity.getId())).withSelfRel());
-        employeeDto.add(linkTo(methodOn(EmployeeController.class).findAllEmployees(0, 8)).withRel("employees"));
-        employeeDto.add(WebMvcLinkBuilder.linkTo(methodOn(CommissionsServiceFeignClient.class)
-                .findCommissionsByEmployeeId(entity.getId())).withRel("employeeCommissions"));
-        return employeeDto;
+//        EmployeeDto employeeDto = employeeMapper.employeeEntityToEmployeeDto(entity);
+//        employeeDto.add(WebMvcLinkBuilder.linkTo(methodOn(EmployeeController.class).findEmployeeById(entity.getId())).withSelfRel());
+//        employeeDto.add(linkTo(methodOn(EmployeeController.class).findAllEmployees(0, 8)).withRel("employees"));
+//        employeeDto.add(WebMvcLinkBuilder.linkTo(methodOn(CommissionsServiceFeignClient.class)
+//                .findCommissionsByEmployeeId(entity.getId())).withRel("employeeCommissions"));
+        return null;
     }
 }
