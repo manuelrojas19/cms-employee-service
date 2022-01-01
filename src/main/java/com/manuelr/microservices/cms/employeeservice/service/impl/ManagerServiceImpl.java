@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class ManagerServiceImpl extends PersonServiceImpl implements ManagerService {
 
     public ManagerServiceImpl(@Qualifier("managerRepository") PersonRepository repository,
-                              PersonAssembler resourceAssembler) {
+                              @Qualifier("managerAssembler") PersonAssembler resourceAssembler) {
         super(repository, resourceAssembler);
     }
 }

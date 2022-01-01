@@ -36,9 +36,9 @@ public abstract class Person extends BaseEntity implements Serializable {
     @Column(columnDefinition = "TEXT", nullable = false, unique = true)
     private String email;
 
-    @ElementCollection
-    @MapKeyEnumerated(EnumType.STRING)
-    private Map<PhoneType, String> phoneNumber;
+//    @ElementCollection
+//    @MapKeyEnumerated(EnumType.STRING)
+//    private Map<PhoneType, String> phoneNumber;
 
     @Embedded
     private Address address;
