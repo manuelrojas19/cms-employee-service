@@ -1,9 +1,6 @@
 package com.manuelr.microservices.cms.employeeservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,4 +17,6 @@ import java.util.List;
 public class Manager extends Person {
     @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
     private List<Employee> subordinates;
+
+
 }

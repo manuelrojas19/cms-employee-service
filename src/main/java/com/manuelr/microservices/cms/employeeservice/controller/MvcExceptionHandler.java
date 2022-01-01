@@ -24,12 +24,12 @@ public class MvcExceptionHandler {
         log.info("Sending validationError response to the client");
         return new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
     }
-
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ExceptionResponse> runtimeExceptionHandler(RuntimeException e) {
-        ExceptionResponse response = ExceptionResponse.builder().message(e.getMessage()).build();
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//
+//    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<ExceptionResponse> runtimeExceptionHandler(RuntimeException e) {
+//        ExceptionResponse response = ExceptionResponse.builder().message(e.getMessage()).build();
+//        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ExceptionResponse> employeeNotFoundHandler(NotFoundException e) {

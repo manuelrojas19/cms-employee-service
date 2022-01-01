@@ -1,11 +1,6 @@
 package com.manuelr.microservices.cms.employeeservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -57,4 +52,17 @@ public abstract class Person extends BaseEntity implements Serializable {
     @Column(nullable = false)
     private Gender gender;
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", firstSurname='" + firstSurname + '\'' +
+                ", secondSurname='" + secondSurname + '\'' +
+                ", email='" + email + '\'' +
+                ", address=" + address +
+                ", birthday=" + birthday +
+                ", gender=" + gender +
+                '}';
+    }
 }

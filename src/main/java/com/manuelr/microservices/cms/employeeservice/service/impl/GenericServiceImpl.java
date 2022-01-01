@@ -2,6 +2,7 @@ package com.manuelr.microservices.cms.employeeservice.service.impl;
 
 import com.manuelr.microservices.cms.employeeservice.exception.NotFoundException;
 import com.manuelr.microservices.cms.employeeservice.service.GenericService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,9 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 
+import java.util.stream.Collectors;
+
+@Slf4j
 public class GenericServiceImpl<DTO extends RepresentationModel<DTO>, E, R extends JpaRepository<E, Long>,
         RA extends RepresentationModelAssembler<E, DTO>> implements GenericService<DTO> {
     protected final R repository;
@@ -24,6 +28,7 @@ public class GenericServiceImpl<DTO extends RepresentationModel<DTO>, E, R exten
     public DTO findById(Long id) {
         E entity = repository.findById(id).orElseThrow(
                 () -> new NotFoundException("Resource not found"));
+
         return resourceAssembler.toModel(entity);
     }
 
@@ -33,6 +38,7 @@ public class GenericServiceImpl<DTO extends RepresentationModel<DTO>, E, R exten
         Page<E> entityPage = repository.findAll(pageable);
         if (entityPage.isEmpty())
             throw new NotFoundException("Resources not found");
+        log.info("Retrieve elements --> {}", entityPage.getContent());
         return resourceAssembler.toCollectionModel(entityPage);
     }
 
