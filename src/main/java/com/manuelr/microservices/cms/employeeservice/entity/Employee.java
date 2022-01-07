@@ -1,5 +1,6 @@
 package com.manuelr.microservices.cms.employeeservice.entity;
 
+import com.manuelr.microservices.cms.employeeservice.enums.EmployeeType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ public class Employee extends Person {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EmployeeType type;
+    private String position;
     @ManyToOne
     private Manager manager;
-
 }

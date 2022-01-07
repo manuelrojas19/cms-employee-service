@@ -1,32 +1,39 @@
 package com.manuelr.microservices.cms.employeeservice.controller;
 
-import com.manuelr.microservices.cms.employeeservice.dto.PersonDto;
+import com.manuelr.cms.commons.dto.PersonDto;
+import com.manuelr.microservices.cms.employeeservice.constants.Pagination;
 import com.manuelr.microservices.cms.employeeservice.service.PersonService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/managers")
 public class ManagerController {
+
     @Autowired
     @Qualifier("managerServiceImpl")
     private PersonService managerService;
 
-    private static final String DEFAULT_PAGE_NUMBER = "0";
-    private static final String DEFAULT_PAGE_SIZE = "8";
-
     @GetMapping
     public ResponseEntity<CollectionModel<PersonDto>> findAll(
-            @RequestParam(name = "page", required = false, defaultValue = DEFAULT_PAGE_NUMBER) Integer page,
-            @RequestParam(name = "size", required = false, defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
-        CollectionModel<PersonDto> response = managerService.findAll(page, size);
+            @RequestParam(name = "page", required = false, defaultValue = Pagination.DEFAULT_PAGE_NUMBER) Integer page,
+            @RequestParam(name = "size", required = false, defaultValue = Pagination.DEFAULT_PAGE_SIZE) Integer size) {
+        CollectionModel<PersonDto> response = managerService.findAll(PageRequest.of(page, size));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PersonDto> findById(@PathVariable Long id) {
+        PersonDto response = managerService.findById(id);
+        log.info("Sending to the client ---> {}", response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

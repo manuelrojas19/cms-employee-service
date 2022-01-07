@@ -1,6 +1,6 @@
 package com.manuelr.microservices.cms.employeeservice.service;
 
-import com.manuelr.microservices.cms.employeeservice.dto.PersonDto;
+import com.manuelr.cms.commons.dto.PersonDto;
 
 public interface PersonService extends GenericService<PersonDto> {
 }
