@@ -17,6 +17,8 @@ import java.time.LocalDate;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Person extends BaseEntity implements Serializable {
 
+    private Long userId;
+
     @NotBlank
     @Column(columnDefinition = "TEXT", nullable = false)
     private String firstName;

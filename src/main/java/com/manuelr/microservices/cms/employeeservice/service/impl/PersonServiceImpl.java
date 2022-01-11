@@ -1,7 +1,9 @@
 package com.manuelr.microservices.cms.employeeservice.service.impl;
 
 import com.manuelr.cms.commons.dto.PersonDto;
+
 import com.manuelr.microservices.cms.employeeservice.entity.Person;
+import com.manuelr.microservices.cms.employeeservice.exception.NotFoundException;
 import com.manuelr.microservices.cms.employeeservice.repository.PersonRepository;
 import com.manuelr.microservices.cms.employeeservice.service.PersonService;
 import com.manuelr.microservices.cms.employeeservice.assembler.PersonAssembler;
@@ -14,5 +16,12 @@ public class PersonServiceImpl extends GenericServiceImpl<PersonDto, Person,
                              PersonAssembler resourceAssembler,
                              PagedResourcesAssembler<Person> pagedResourcesAssembler) {
         super(repository, resourceAssembler, pagedResourcesAssembler);
+    }
+
+    @Override
+    public PersonDto findByUserId(Long id) {
+        Person person = repository.findByUserId(id)
+                .orElseThrow(() -> new NotFoundException("Person with user id not found"));
+        return resourceAssembler.toModel(person);
     }
 }

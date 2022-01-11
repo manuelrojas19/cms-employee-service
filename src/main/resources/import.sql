@@ -9,7 +9,7 @@ INSERT INTO person (id, first_name, first_surname, gender, email, birthday) VALU
 INSERT INTO person (id, first_name, first_surname, gender, email, birthday) VALUES (9, 'Jose', 'Ortega', 'MALE', 'jose@gmail.com', '1999-12-12');
 INSERT INTO person (id, first_name, first_surname, gender, email, birthday) VALUES (10, 'Hermes', 'Montes', 'MALE', 'hermes99@gmail.com', '1999-12-12');
 INSERT INTO person (id, first_name, first_surname, gender, email, birthday) VALUES (11, 'Jaime', 'Rabadán', 'MALE', 'jaime99@gmail.com', '1999-12-12');
-INSERT INTO person (id, first_name, first_surname, gender, email, birthday) VALUES (12, 'Mariana', 'Tapia', 'FEMALE', 'mariana99@gmail.com', '1999-12-12');
+INSERT INTO person (id, user_id, first_name, first_surname, gender, email, birthday) VALUES (12, 1, 'Mariana', 'Tapia', 'FEMALE', 'mariana99@gmail.com', '1999-12-12');
 INSERT INTO person (id, first_name, first_surname, gender, email, birthday) VALUES (13, 'Osiris', 'Flores', 'FEMALE', 'osiris99@gmail.com', '1999-12-12');
 
 

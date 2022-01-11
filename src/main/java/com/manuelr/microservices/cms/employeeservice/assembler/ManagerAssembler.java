@@ -1,7 +1,6 @@
 package com.manuelr.microservices.cms.employeeservice.assembler;
 
 import com.manuelr.cms.commons.dto.ManagerDto;
-import com.manuelr.cms.commons.dto.PersonDto;
 import com.manuelr.microservices.cms.employeeservice.controller.EmployeeController;
 import com.manuelr.microservices.cms.employeeservice.controller.ManagerController;
 import com.manuelr.microservices.cms.employeeservice.entity.Manager;
@@ -19,7 +18,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class ManagerAssembler implements PersonAssembler {
     private final ManagerMapper mapper;
 
-    public @NonNull PersonDto toModel(@NonNull Person entity) {
+    public @NonNull com.manuelr.cms.commons.dto.PersonDto toModel(@NonNull Person entity) {
         ManagerDto dto = mapper.entityToDto((Manager) entity);
         dto.add(linkTo(methodOn(ManagerController.class).findById(entity.getId())).withSelfRel());
         dto.add(linkTo(methodOn(ManagerController.class).findAll(0, 8)).withRel("managers"));
