@@ -6,7 +6,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-
+authentication-dev:
+  auth:
+    tokenSecret: myTokenSecret
+    tokenExpirationMsec: 3600000 #1 hour
+    refreshTokenExpirationMsec: 77760000000 #90 days
+    accessTokenCookieName: accessToken
+    refreshTokenCookieName: refreshToken
 
 
 

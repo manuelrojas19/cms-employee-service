@@ -1,5 +1,6 @@
 package com.manuelr.microservices.cms.employeeservice.service.impl;
 
+import com.manuelr.cms.commons.dto.PersonDto;
 import com.manuelr.microservices.cms.employeeservice.entity.Person;
 import com.manuelr.microservices.cms.employeeservice.exception.NotFoundException;
 import com.manuelr.microservices.cms.employeeservice.repository.EmployeeRepository;
@@ -28,11 +29,13 @@ public class EmployeeServiceImpl extends PersonServiceImpl implements EmployeeSe
 
     @Override
     @Transactional(readOnly = true)
-    public CollectionModel<com.manuelr.cms.commons.dto.PersonDto> findAllByManagerId(Long managerId, Pageable pageable) {
+    public CollectionModel<PersonDto> findAllByManagerId(Long managerId, Pageable pageable) {
         Page<Person> employees = ((EmployeeRepository) repository).findAllByManagerId(pageable, managerId);
         log.info("Retrieved Data ---> {}", employees.getContent());
         if (employees.isEmpty())
             throw new NotFoundException(NOT_FOUND_ERROR_MSG);
         return resourceAssembler.toCollectionModel(employees);
     }
+
+
 }

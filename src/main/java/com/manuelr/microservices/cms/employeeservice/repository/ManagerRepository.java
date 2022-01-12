@@ -15,4 +15,5 @@ public interface ManagerRepository extends PersonRepository {
     Page<Person> findAll(Pageable page);
     @Query("SELECT m from Manager m WHERE m.id = :id")
     Optional<Person> findById(@Param("id") Long id);
+
 }

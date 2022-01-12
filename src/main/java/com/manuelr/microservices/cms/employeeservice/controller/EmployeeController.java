@@ -39,10 +39,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/current")
-    public ResponseEntity<PersonDto> findCurrentEmployeeUser(
-            @RequestHeader(name = "X-Auth-UserId") Long userId) {
-        log.info("Current User Id ---> {}", userId);
-        PersonDto response = employeeService.findByUserId(userId);
+    public ResponseEntity<PersonDto> findCurrentEmployeeUser() {
+        PersonDto response = employeeService.findByCurrentUser();
         log.info("Sending to the client ---> {}", response);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
