@@ -16,43 +16,44 @@ import java.time.LocalDate;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Person extends BaseEntity implements Serializable {
-
-    private Long userId;
-
-    @NotBlank
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String firstName;
-
-    @Column(columnDefinition = "TEXT")
-    private String secondName;
+    protected Long userId;
 
     @NotBlank
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String firstSurname;
+    protected String firstName;
 
     @Column(columnDefinition = "TEXT")
-    private String secondSurname;
+    protected String secondName;
+
+    @NotBlank
+    @Column(columnDefinition = "TEXT", nullable = false)
+    protected String firstSurname;
+
+    @Column(columnDefinition = "TEXT")
+    protected String secondSurname;
 
     @NotBlank
     @Email
     @Column(columnDefinition = "TEXT", nullable = false, unique = true)
-    private String email;
+    protected String email;
 
 //    @ElementCollection
 //    @MapKeyEnumerated(EnumType.STRING)
 //    private Map<PhoneType, String> phoneNumber;
 
     @Embedded
-    private Address address;
+    protected Address address;
 
     @NotNull
     @Column(columnDefinition = "DATE", nullable = false)
-    private LocalDate birthday;
+    protected LocalDate birthday;
 
     @Enumerated(EnumType.STRING)
     @NotNull
     @Column(nullable = false)
-    private Gender gender;
+    protected Gender gender;
+
+    protected Long departmentId;
 
     @Override
     public String toString() {

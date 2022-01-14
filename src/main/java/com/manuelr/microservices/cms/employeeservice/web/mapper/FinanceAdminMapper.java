@@ -1,4 +1,4 @@
-package com.manuelr.microservices.cms.employeeservice.mapper;
+package com.manuelr.microservices.cms.employeeservice.web.mapper;
 
 import com.manuelr.cms.commons.dto.FinanceAdminDto;
 import com.manuelr.microservices.cms.employeeservice.entity.FinanceAdmin;

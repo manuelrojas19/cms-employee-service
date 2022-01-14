@@ -1,12 +1,12 @@
-package com.manuelr.microservices.cms.employeeservice.assembler;
+package com.manuelr.microservices.cms.employeeservice.web.assembler;
 
 import com.manuelr.cms.commons.dto.EmployeeDto;
 import com.manuelr.microservices.cms.employeeservice.controller.EmployeeController;
 import com.manuelr.microservices.cms.employeeservice.controller.ManagerController;
 import com.manuelr.microservices.cms.employeeservice.entity.Employee;
 import com.manuelr.microservices.cms.employeeservice.entity.Person;
-import com.manuelr.microservices.cms.employeeservice.mapper.EmployeeMapper;
-import com.manuelr.microservices.cms.employeeservice.proxy.CommissionsServiceFeignClient;
+import com.manuelr.microservices.cms.employeeservice.web.mapper.EmployeeMapper;
+import com.manuelr.microservices.cms.employeeservice.web.proxy.CommissionsServiceFeignClient;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;

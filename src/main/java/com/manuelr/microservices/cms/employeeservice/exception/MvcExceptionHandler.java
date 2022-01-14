@@ -3,9 +3,11 @@ package com.manuelr.microservices.cms.employeeservice.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,6 +35,14 @@ public class MvcExceptionHandler {
     public ResponseEntity<ExceptionResponse> employeeNotFoundHandler(NotFoundException e) {
         ExceptionResponse response = ExceptionResponse.builder().message(e.getMessage()).build();
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ExceptionResponse> accessDeniedExceptionHandler(AccessDeniedException e) {
+        log.error(e.getMessage());
+        ExceptionResponse response = ExceptionResponse.builder().message(e.getMessage()).build();
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
 

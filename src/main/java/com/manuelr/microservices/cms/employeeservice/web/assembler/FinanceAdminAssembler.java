@@ -1,9 +1,9 @@
-package com.manuelr.microservices.cms.employeeservice.assembler;
+package com.manuelr.microservices.cms.employeeservice.web.assembler;
 
 import com.manuelr.cms.commons.dto.FinanceAdminDto;
 import com.manuelr.microservices.cms.employeeservice.entity.FinanceAdmin;
 import com.manuelr.microservices.cms.employeeservice.entity.Person;
-import com.manuelr.microservices.cms.employeeservice.mapper.FinanceAdminMapper;
+import com.manuelr.microservices.cms.employeeservice.web.mapper.FinanceAdminMapper;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;

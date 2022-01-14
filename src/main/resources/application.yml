@@ -1,4 +1,13 @@
 spring:
+  cloud:
+    stream:
+      function:
+        definition: registrationProcessor
+      bindings:
+        registrationProcessor-in-0:
+          destination: signup-event
+        registrationProcessor-out-0:
+          destination: registration-event
   application:
     name: employees-service
   zipkin:

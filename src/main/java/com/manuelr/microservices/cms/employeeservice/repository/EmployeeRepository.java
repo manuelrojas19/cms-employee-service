@@ -21,15 +21,9 @@ public interface EmployeeRepository extends PersonRepository {
     Page<Person> findAllByManagerId(Pageable page, @Param("managerId") Long managerId);
 
     @Query("SELECT e from Employee e WHERE e.id = :id")
-    @PostAuthorize("hasRole('FINANCE') " +
-            "or hasRole('MANAGER') " +
-            "or returnObject.empty ? false : returnObject.get().email == authentication.name")
     Optional<Person> findById(@Param("id") Long id);
 
     @Query("SELECT e from Employee e WHERE e.userId = :id")
-    @PostAuthorize("hasRole('FINANCE') " +
-            "or hasRole('MANAGER') " +
-            "or returnObject.empty ? false : returnObject.get().email == authentication.name")
     Optional<Person> findByUserId(@Param("id") Long id);
 
     @Query("SELECT e from Employee e WHERE e.email = :email")

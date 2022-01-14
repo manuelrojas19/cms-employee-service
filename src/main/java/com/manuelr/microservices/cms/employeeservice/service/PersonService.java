@@ -1,13 +1,14 @@
 package com.manuelr.microservices.cms.employeeservice.service;
 
 import com.manuelr.cms.commons.dto.PersonDto;
-import org.springframework.security.access.prepost.PostAuthorize;
+import com.manuelr.cms.commons.event.RegistrationEvent;
+import com.manuelr.cms.commons.event.SignupEvent;
 
 public interface PersonService extends GenericService<PersonDto> {
-    @Override
-    PersonDto findById(Long id);
 
     PersonDto findByUserId(Long id);
 
     PersonDto findByCurrentUser();
+
+    RegistrationEvent newSignupEvent(SignupEvent signupEvent);
 }

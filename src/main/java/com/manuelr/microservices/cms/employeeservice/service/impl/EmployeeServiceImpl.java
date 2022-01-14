@@ -1,13 +1,21 @@
 package com.manuelr.microservices.cms.employeeservice.service.impl;
 
+import com.manuelr.cms.commons.dto.EmployeeDto;
 import com.manuelr.cms.commons.dto.PersonDto;
+import com.manuelr.cms.commons.enums.RegistrationStatus;
+import com.manuelr.cms.commons.event.RegistrationEvent;
+import com.manuelr.cms.commons.event.SignupEvent;
+import com.manuelr.microservices.cms.employeeservice.entity.Employee;
 import com.manuelr.microservices.cms.employeeservice.entity.Person;
 import com.manuelr.microservices.cms.employeeservice.exception.NotFoundException;
 import com.manuelr.microservices.cms.employeeservice.repository.EmployeeRepository;
 import com.manuelr.microservices.cms.employeeservice.repository.PersonRepository;
 import com.manuelr.microservices.cms.employeeservice.service.EmployeeService;
-import com.manuelr.microservices.cms.employeeservice.assembler.PersonAssembler;
+import com.manuelr.microservices.cms.employeeservice.web.assembler.PersonAssembler;
+import com.manuelr.microservices.cms.employeeservice.web.mapper.EmployeeMapper;
+import com.manuelr.microservices.cms.employeeservice.web.mapper.PersonMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +31,9 @@ public class EmployeeServiceImpl extends PersonServiceImpl implements EmployeeSe
 
     public EmployeeServiceImpl(@Qualifier("employeeRepository") PersonRepository repository,
                                @Qualifier("employeeAssembler") PersonAssembler resourceAssembler,
-                               PagedResourcesAssembler<Person> pagedResourcesAssembler) {
-        super(repository, resourceAssembler, pagedResourcesAssembler);
+                               PagedResourcesAssembler<Person> pagedResourcesAssembler,
+                               EmployeeMapper mapper) {
+        super(repository, resourceAssembler, pagedResourcesAssembler, mapper);
     }
 
     @Override
@@ -36,6 +45,7 @@ public class EmployeeServiceImpl extends PersonServiceImpl implements EmployeeSe
             throw new NotFoundException(NOT_FOUND_ERROR_MSG);
         return resourceAssembler.toCollectionModel(employees);
     }
+
 
 
 }

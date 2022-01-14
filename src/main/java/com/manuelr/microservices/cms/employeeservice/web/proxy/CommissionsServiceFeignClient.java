@@ -1,4 +1,4 @@
-package com.manuelr.microservices.cms.employeeservice.proxy;
+package com.manuelr.microservices.cms.employeeservice.web.proxy;
 
 import com.manuelr.cms.commons.dto.CommissionDto;
 import org.springframework.cloud.openfeign.FeignClient;

@@ -11,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -22,6 +24,7 @@ public class EmployeeController {
     @Qualifier("employeeServiceImpl")
     private PersonService employeeService;
 
+    @PreAuthorize("hasAuthority('FINANCE')")
     @GetMapping("/employees")
     public ResponseEntity<CollectionModel<PersonDto>> findAll(
             @RequestParam(name = "page", required = false, defaultValue = Pagination.DEFAULT_PAGE_NUMBER) Integer page,
@@ -31,27 +34,7 @@ public class EmployeeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/employees/{id}")
-    public ResponseEntity<PersonDto> findById(@PathVariable Long id) {
-        PersonDto response = employeeService.findById(id);
-        log.info("Sending to the client ---> {}", response);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @GetMapping("/employees/current")
-    public ResponseEntity<PersonDto> findCurrentEmployeeUser() {
-        PersonDto response = employeeService.findByCurrentUser();
-        log.info("Sending to the client ---> {}", response);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @GetMapping("/employees/findByUserId")
-    public ResponseEntity<PersonDto> findByUserId(@RequestParam Long userId) {
-        PersonDto response = employeeService.findByUserId(userId);
-        log.info("Sending to the client ---> {}", response);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
+    @PreAuthorize("hasAuthority('MANAGER') and #managerId == authentication.principal.personId")
     @GetMapping("/managers/{managerId}/employees")
     public ResponseEntity<CollectionModel<PersonDto>> findAllByManagerId(
             @RequestParam(name = "page", required = false, defaultValue = Pagination.DEFAULT_PAGE_NUMBER) Integer page,
@@ -59,6 +42,34 @@ public class EmployeeController {
             @PathVariable Long managerId) {
         CollectionModel<PersonDto> response = ((EmployeeService) employeeService)
                 .findAllByManagerId(managerId, PageRequest.of(page, size));
+        log.info("Sending to the client ---> {}", response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("(hasAuthority('EMPLOYEE') and #id == authentication.principal.personId)" +
+            "or hasAuthority('MANAGER') or hasAuthority('FINANCE')")
+    @PostAuthorize("(hasAuthority('MANAGER') and returnObject.body.managerId == authentication.principal.personID)" +
+            "or hasAuthority('FINANCE') or hasAuthority('EMPLOYEE')")
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<PersonDto> findById(@PathVariable Long id) {
+        PersonDto response = employeeService.findById(id);
+        log.info("Sending to the client ---> {}", response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('EMPLOYEE')")
+    @GetMapping("/employees/current")
+    public ResponseEntity<PersonDto> findCurrentEmployeeUser() {
+        PersonDto response = employeeService.findByCurrentUser();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('FINANCE') " +
+            "or hasAuthority('MANAGER') " +
+            "or (hasAuthority('EMPLOYEE') and #id == authentication.principal.personId)")
+    @GetMapping("/employees/findByUserId")
+    public ResponseEntity<PersonDto> findByUserId(@RequestParam Long userId) {
+        PersonDto response = employeeService.findByUserId(userId);
         log.info("Sending to the client ---> {}", response);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

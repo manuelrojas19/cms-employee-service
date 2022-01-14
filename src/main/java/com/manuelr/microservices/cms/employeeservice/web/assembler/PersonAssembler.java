@@ -1,4 +1,4 @@
-package com.manuelr.microservices.cms.employeeservice.assembler;
+package com.manuelr.microservices.cms.employeeservice.web.assembler;
 
 import com.manuelr.microservices.cms.employeeservice.entity.Person;
 import org.springframework.hateoas.server.RepresentationModelAssembler;

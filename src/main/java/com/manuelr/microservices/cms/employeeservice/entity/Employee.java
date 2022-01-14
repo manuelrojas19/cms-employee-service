@@ -10,15 +10,16 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @PrimaryKeyJoinColumn(name = "person_id")
 public class Employee extends Person {
     @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private EmployeeType type;
+    private EmployeeType employeeType;
+
     private String position;
+
     @ManyToOne
     private Manager manager;
 }

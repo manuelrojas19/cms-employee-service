@@ -12,21 +12,19 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @MappedSuperclass
 public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @Version
-    private Long version;
+    protected Long version;
 
     @CreationTimestamp
     @Column(updatable = false)
-    private Timestamp createdAt;
+    protected Timestamp createdAt;
 
     @UpdateTimestamp
-    private Timestamp updatedAt;
+    protected Timestamp updatedAt;
 }
