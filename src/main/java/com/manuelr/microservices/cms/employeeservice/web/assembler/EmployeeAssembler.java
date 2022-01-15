@@ -23,8 +23,9 @@ public class EmployeeAssembler implements PersonAssembler {
         EmployeeDto dto = mapper.entityToDto((Employee) entity);
         dto.add(linkTo(methodOn(EmployeeController.class).findById(entity.getId())).withSelfRel());
         dto.add(linkTo(methodOn(EmployeeController.class).findAll(0, 8)).withRel("employees"));
-        dto.add(linkTo(methodOn(ManagerController.class).findById(((Employee) entity).getManager().getId()))
-                .withRel("employeeManager"));
+        // TODO add manager to request
+//        dto.add(linkTo(methodOn(ManagerController.class).findById(((Employee) entity).getManager().getId()))
+//                .withRel("employeeManager"));
         dto.add(linkTo(methodOn(CommissionsServiceFeignClient.class)
                 .findCommissionsByEmployeeId(entity.getId())).withRel("employeeCommissions"));
         return dto;

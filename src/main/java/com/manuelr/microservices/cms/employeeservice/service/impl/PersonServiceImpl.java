@@ -2,9 +2,9 @@ package com.manuelr.microservices.cms.employeeservice.service.impl;
 
 import com.manuelr.cms.commons.dto.PersonDto;
 
-import com.manuelr.cms.commons.enums.RegistrationStatus;
-import com.manuelr.cms.commons.event.RegistrationEvent;
-import com.manuelr.cms.commons.event.SignupEvent;
+import com.manuelr.cms.commons.event.registration.RegistrationStatus;
+import com.manuelr.cms.commons.event.registration.RegistrationEvent;
+import com.manuelr.cms.commons.event.signup.SignupEvent;
 import com.manuelr.cms.commons.security.UserData;
 import com.manuelr.microservices.cms.employeeservice.entity.Person;
 import com.manuelr.microservices.cms.employeeservice.exception.NotFoundException;
@@ -45,15 +45,30 @@ public class PersonServiceImpl extends GenericServiceImpl<PersonDto, Person,
         return resourceAssembler.toModel(person);
     }
 
+    public Person save(PersonDto personDto) {
+        Person person = personMapper.dtoToEntity(personDto);
+        return repository.save(person);
+    }
+
     @Override
     @Transactional
     public RegistrationEvent newSignupEvent(SignupEvent signupEvent) {
         log.info("Signup event, person data ---> {}", signupEvent.getSignupRequestDto().getPersonData());
         PersonDto personDto = signupEvent.getSignupRequestDto().getPersonData();
-        Person personSaved = repository.save(personMapper.dtoToEntity(personDto));
+        Person personSaved;
+        try {
+            personSaved = this.save(personDto);
+        } catch (Exception e) {
+            RegistrationEvent event = new RegistrationEvent(personDto, RegistrationStatus.FAILURE);
+            log.info("Sending event ---> {}", event);
+            return event;
+        }
         log.info("personSaved --> {}", personSaved);
         personDto.setId(personSaved.getId());
-        return new RegistrationEvent(personDto, RegistrationStatus.SUCCESS);
+        RegistrationEvent event = new RegistrationEvent(personDto, RegistrationStatus.SUCCESS);
+
+        log.info("Sending event ---> {}", event);
+        return event;
     }
 
 

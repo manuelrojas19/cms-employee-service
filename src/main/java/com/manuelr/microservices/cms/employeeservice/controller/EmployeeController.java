@@ -24,7 +24,8 @@ public class EmployeeController {
     @Qualifier("employeeServiceImpl")
     private PersonService employeeService;
 
-    @PreAuthorize("hasAuthority('FINANCE')")
+    // TODO restrict to only retrieve subordinates from manager
+    @PreAuthorize("hasAuthority('FINANCE') or hasAuthority('MANAGER')")
     @GetMapping("/employees")
     public ResponseEntity<CollectionModel<PersonDto>> findAll(
             @RequestParam(name = "page", required = false, defaultValue = Pagination.DEFAULT_PAGE_NUMBER) Integer page,
@@ -34,7 +35,8 @@ public class EmployeeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('MANAGER') and #managerId == authentication.principal.personId")
+    @PreAuthorize("(hasAuthority('MANAGER') and #managerId == authentication.principal.personId)" +
+            "or hasAuthority('FINANCE')")
     @GetMapping("/managers/{managerId}/employees")
     public ResponseEntity<CollectionModel<PersonDto>> findAllByManagerId(
             @RequestParam(name = "page", required = false, defaultValue = Pagination.DEFAULT_PAGE_NUMBER) Integer page,
@@ -46,10 +48,9 @@ public class EmployeeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     @PreAuthorize("(hasAuthority('EMPLOYEE') and #id == authentication.principal.personId)" +
             "or hasAuthority('MANAGER') or hasAuthority('FINANCE')")
-    @PostAuthorize("(hasAuthority('MANAGER') and returnObject.body.managerId == authentication.principal.personID)" +
-            "or hasAuthority('FINANCE') or hasAuthority('EMPLOYEE')")
     @GetMapping("/employees/{id}")
     public ResponseEntity<PersonDto> findById(@PathVariable Long id) {
         PersonDto response = employeeService.findById(id);
@@ -66,7 +67,7 @@ public class EmployeeController {
 
     @PreAuthorize("hasAuthority('FINANCE') " +
             "or hasAuthority('MANAGER') " +
-            "or (hasAuthority('EMPLOYEE') and #id == authentication.principal.personId)")
+            "or (hasAuthority('EMPLOYEE') and #id == authentication.principal.userId)")
     @GetMapping("/employees/findByUserId")
     public ResponseEntity<PersonDto> findByUserId(@RequestParam Long userId) {
         PersonDto response = employeeService.findByUserId(userId);

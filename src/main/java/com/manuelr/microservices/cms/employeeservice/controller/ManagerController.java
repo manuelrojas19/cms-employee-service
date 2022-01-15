@@ -21,6 +21,7 @@ public class ManagerController {
     @Qualifier("managerServiceImpl")
     private PersonService managerService;
 
+
     @GetMapping
     public ResponseEntity<CollectionModel<PersonDto>> findAll(
             @RequestParam(name = "page", required = false, defaultValue = Pagination.DEFAULT_PAGE_NUMBER) Integer page,
