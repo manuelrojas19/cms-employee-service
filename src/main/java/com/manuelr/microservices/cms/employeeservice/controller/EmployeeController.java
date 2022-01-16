@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +23,7 @@ public class EmployeeController {
     @Qualifier("employeeServiceImpl")
     private PersonService employeeService;
 
-    // TODO restrict to only retrieve subordinates from manager
-    @PreAuthorize("hasAuthority('FINANCE') or hasAuthority('MANAGER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/employees")
     public ResponseEntity<CollectionModel<PersonDto>> findAll(
             @RequestParam(name = "page", required = false, defaultValue = Pagination.DEFAULT_PAGE_NUMBER) Integer page,
@@ -35,8 +33,7 @@ public class EmployeeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("(hasAuthority('MANAGER') and #managerId == authentication.principal.personId)" +
-            "or hasAuthority('FINANCE')")
+    @PreAuthorize("(hasAuthority('MANAGER') and #managerId == authentication.principal.personId)")
     @GetMapping("/managers/{managerId}/employees")
     public ResponseEntity<CollectionModel<PersonDto>> findAllByManagerId(
             @RequestParam(name = "page", required = false, defaultValue = Pagination.DEFAULT_PAGE_NUMBER) Integer page,
@@ -48,9 +45,20 @@ public class EmployeeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
+    @GetMapping("/managers/current/employees")
+    public ResponseEntity<CollectionModel<PersonDto>> findAllByCurrentManagerUser(
+            @RequestParam(name = "page", required = false, defaultValue = Pagination.DEFAULT_PAGE_NUMBER) Integer page,
+            @RequestParam(name = "size", required = false, defaultValue = Pagination.DEFAULT_PAGE_SIZE) Integer size) {
+        CollectionModel<PersonDto> response = ((EmployeeService) employeeService)
+                .findAllByCurrentManagerUser(PageRequest.of(page, size));
+        log.info("Sending to the client ---> {}", response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
     @PreAuthorize("(hasAuthority('EMPLOYEE') and #id == authentication.principal.personId)" +
-            "or hasAuthority('MANAGER') or hasAuthority('FINANCE')")
+            "or hasAuthority('MANAGER')")
     @GetMapping("/employees/{id}")
     public ResponseEntity<PersonDto> findById(@PathVariable Long id) {
         PersonDto response = employeeService.findById(id);
@@ -65,9 +73,8 @@ public class EmployeeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('FINANCE') " +
-            "or hasAuthority('MANAGER') " +
-            "or (hasAuthority('EMPLOYEE') and #id == authentication.principal.userId)")
+    @PreAuthorize("(hasAuthority('EMPLOYEE') and #userId == authentication.principal.userId)" +
+            "or hasAuthority('MANAGER')")
     @GetMapping("/employees/findByUserId")
     public ResponseEntity<PersonDto> findByUserId(@RequestParam Long userId) {
         PersonDto response = employeeService.findByUserId(userId);

@@ -5,6 +5,7 @@ import com.manuelr.cms.commons.dto.PersonDto;
 import com.manuelr.cms.commons.event.registration.RegistrationEvent;
 import com.manuelr.cms.commons.event.registration.RegistrationStatus;
 import com.manuelr.cms.commons.event.signup.SignupEvent;
+import com.manuelr.cms.commons.security.UserData;
 import com.manuelr.microservices.cms.employeeservice.entity.Employee;
 import com.manuelr.microservices.cms.employeeservice.entity.Manager;
 import com.manuelr.microservices.cms.employeeservice.entity.Person;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +54,20 @@ public class EmployeeServiceImpl extends PersonServiceImpl implements EmployeeSe
             throw new NotFoundException(NOT_FOUND_ERROR_MSG);
         return resourceAssembler.toCollectionModel(employees);
     }
-    
+
+    @Override
+    @Transactional(readOnly = true)
+    public CollectionModel<PersonDto> findAllByCurrentManagerUser(Pageable pageable) {
+        Long managerUserId = ((UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserId();
+        Person manager = managerRepository.findByUserId(managerUserId)
+                .orElseThrow(() -> new NotFoundException("Manager not found"));
+        Page<Person> employees = ((EmployeeRepository) repository).findAllByManagerId(pageable, manager.getId());
+        log.info("Retrieved Data ---> {}", employees.getContent());
+        if (employees.isEmpty())
+            throw new NotFoundException(NOT_FOUND_ERROR_MSG);
+        return resourceAssembler.toCollectionModel(employees);
+    }
+
     @Override
     public Person save(PersonDto person) {
         EmployeeDto employeeDto = (EmployeeDto) person;
@@ -62,4 +77,5 @@ public class EmployeeServiceImpl extends PersonServiceImpl implements EmployeeSe
         employeeToSave.setManager(manager);
         return repository.save(employeeToSave);
     }
+
 }

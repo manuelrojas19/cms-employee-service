@@ -40,8 +40,8 @@ public class PersonServiceImpl extends GenericServiceImpl<PersonDto, Person,
 
     @Override
     public PersonDto findByCurrentUser() {
-        Long personId = ((UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserId();
-        Person person = repository.findByUserId(personId).orElseThrow(() -> new NotFoundException("User was not found"));
+        Long userId = ((UserData) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserId();
+        Person person = repository.findByUserId(userId).orElseThrow(() -> new NotFoundException("User was not found"));
         return resourceAssembler.toModel(person);
     }
 
