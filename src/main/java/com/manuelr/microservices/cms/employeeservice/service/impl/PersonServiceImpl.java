@@ -15,6 +15,7 @@ import com.manuelr.microservices.cms.employeeservice.web.mapper.PersonMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -49,27 +50,4 @@ public class PersonServiceImpl extends GenericServiceImpl<PersonDto, Person,
         Person person = personMapper.dtoToEntity(personDto);
         return repository.save(person);
     }
-
-    @Override
-    @Transactional
-    public RegistrationEvent newSignupEvent(SignupEvent signupEvent) {
-        log.info("Signup event, person data ---> {}", signupEvent.getSignupRequestDto().getPersonData());
-        PersonDto personDto = signupEvent.getSignupRequestDto().getPersonData();
-        Person personSaved;
-        try {
-            personSaved = this.save(personDto);
-        } catch (Exception e) {
-            RegistrationEvent event = new RegistrationEvent(personDto, RegistrationStatus.FAILURE);
-            log.info("Sending event ---> {}", event);
-            return event;
-        }
-        log.info("personSaved --> {}", personSaved);
-        personDto.setId(personSaved.getId());
-        RegistrationEvent event = new RegistrationEvent(personDto, RegistrationStatus.SUCCESS);
-
-        log.info("Sending event ---> {}", event);
-        return event;
-    }
-
-
 }

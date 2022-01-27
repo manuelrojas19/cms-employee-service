@@ -13,5 +13,4 @@ public interface PersonService extends GenericService<PersonDto> {
 
     Person save(PersonDto person);
 
-    RegistrationEvent newSignupEvent(SignupEvent signupEvent);
 }

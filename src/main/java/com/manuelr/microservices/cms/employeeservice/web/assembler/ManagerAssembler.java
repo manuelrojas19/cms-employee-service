@@ -21,9 +21,9 @@ public class ManagerAssembler implements PersonAssembler {
     public @NonNull com.manuelr.cms.commons.dto.PersonDto toModel(@NonNull Person entity) {
         ManagerDto dto = mapper.entityToDto((Manager) entity);
         dto.add(linkTo(methodOn(ManagerController.class).findById(entity.getId())).withSelfRel());
-        dto.add(linkTo(methodOn(ManagerController.class).findAll(0, 8)).withRel("managers"));
-        dto.add(linkTo(methodOn(EmployeeController.class).findAllByManagerId(0, 8, entity.getId()))
-                .withRel("managerEmployees"));
+        dto.add(linkTo(methodOn(ManagerController.class).findAll(null, null)).withRel("managers").expand());
+        dto.add(linkTo(methodOn(EmployeeController.class).findAllByManagerId(null, null, entity.getId()))
+                .withRel("managerEmployees").expand());
         return dto;
     }
 

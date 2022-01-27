@@ -21,11 +21,9 @@ public class JwtTokenUtil {
         return claims.getSubject();
     }
 
-
     public UserData getUserDataFromToken(String token) {
         ObjectMapper mapper = new ObjectMapper();
         Claims claims = Jwts.parser().setSigningKey(tokenSecret).parseClaimsJws(token).getBody();
         return mapper.convertValue(claims.get("userData", Object.class), UserData.class);
     }
-
 }
