@@ -4,4 +4,4 @@ USER spring:spring
 VOLUME /tmp
 ADD target/cms-employee-service-1.0.jar /app/app.jar
 EXPOSE 8101
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=local,local-discovery","-jar","/app/app.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=local-discovery,local-dev","-jar","/app/app.jar"]
