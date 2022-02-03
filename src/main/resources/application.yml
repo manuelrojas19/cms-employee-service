@@ -1,27 +1,11 @@
-spring:
-  cloud:
-    stream:
-      function:
-        definition: registrationProcessor
-      bindings:
-        registrationProcessor-in-0:
-          destination: signup-event
-        registrationProcessor-out-0:
-          destination: registration-event
-  application:
-    name: employees-service
-  zipkin:
-    base-url: http://localhost:9411
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
 authentication-dev:
   auth:
     tokenSecret: myTokenSecret
-    tokenExpirationMsec: 3600000 #1 hour
-    refreshTokenExpirationMsec: 77760000000 #90 days
+    tokenExpirationMsec: 3600000
+    refreshTokenExpirationMsec: 77760000000
     accessTokenCookieName: accessToken
     refreshTokenCookieName: refreshToken
+
 
 
 
